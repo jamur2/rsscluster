@@ -62,6 +62,7 @@ as OPML.  If you can't, or you don't have enough feeds to generate interesting
 output, feel free to use my sample file in this directory, named "feeds.opml"
 
 The basic usage of rsscluster.py is::
+
     Usage: rsscluster.py [options] OPML_FILE
 
     Options:
