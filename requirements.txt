@@ -1,3 +1,4 @@
+rsscluster
 Pyro4==4.20
 argparse==1.2.1
 distribute==0.6.34

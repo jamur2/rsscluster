@@ -25,13 +25,34 @@ Installation
 First off, you'll need `virtualenv <http://www.virtualenv.org/en/latest/>`_.
 Depending on your operating system and your tolerance for system packages, you
 have a choice of installation methods.  Install it the way you want (or just
-follow the `directions <http://www.virtualenv.org/en/latest/#installation>`_.
+follow the `directions <http://www.virtualenv.org/en/latest/#installation>`_).
 
 Once you're done with that, you can set up your environment.  From this
 directory, run::
 
     $ virtualenv --no-site-packages .
     $ bin/pip install -r requirements.txt
+
+At this point, you'll probably have some errors.  Numpy and scipy (two
+dependencies of gensim) are notoriously difficult to build on your first
+try.  The first thing to check is that you have all of the dependencies
+installed (eg., gcc).  Hopefully you'll see an error message indicating
+what's missing.
+
+I also sometimes have an issue installing numpy from requirements.txt.  If
+I build it separately with::
+
+    $ bin/pip install numpy==1.6.2
+
+And then build the rest with::
+
+    $ bin/pip install -r requirements.txt
+
+That can move the build process along.  You also may get things working
+by installing system packages for numpy and scipy, but that can bring its
+own problems.  If none of the above helps, I apologize, and can only say
+that Google is your friend.
+
 
 Usage
 -----
