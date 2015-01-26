@@ -86,6 +86,7 @@ def get_documents(feed):
             body += tokenize_html(entry.summary)
             document = {
                 'id': entry.link,
+                'feed': feed,
                 'tokens': body,
                 'payload': {'feed': feed, 'title': entry.title},
                 'date': None
@@ -172,7 +173,9 @@ def main():
                 published[1] == date.month and
                 published[2] == date.day):
             similar_docs = [doc for doc in server.find_similar(document)
-                if (doc[1] > options.threshold and doc[0] != document['id'])]
+                if (doc[1] > options.threshold and
+                    doc[0] != document['id'] and
+                    doc[2]['feed'] != document['feed'])]
             if len(similar_docs) > 0:
                 if options.html:
                     html_output(document, similar_docs, output_file)
