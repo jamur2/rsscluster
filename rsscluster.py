@@ -79,11 +79,12 @@ def get_documents(feed):
         return []
     for entry in parsed_feed.entries:
         body = []
-        if hasattr(entry, 'content'):
-            for content in entry.content:
-                body += tokenize_html(content.value)
-        if hasattr(entry, 'summary') and hasattr(entry, 'link'):
-            body += tokenize_html(entry.summary)
+        if hasattr(entry, 'link'):
+            if hasattr(entry, 'content'):
+                for content in entry.content:
+                    body += tokenize_html(content.value)
+            if hasattr(entry, 'summary'):
+                body += tokenize_html(entry.summary)
             document = {
                 'id': entry.link,
                 'feed': feed,
@@ -93,7 +94,7 @@ def get_documents(feed):
             }
             if hasattr(entry, 'published_parsed'):
                 document['date'] = entry.published_parsed
-        documents.append(document)
+            documents.append(document)
     return documents
 
 
