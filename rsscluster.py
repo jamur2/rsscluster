@@ -82,7 +82,7 @@ def get_documents(feed):
         if hasattr(entry, 'content'):
             for content in entry.content:
                 body += tokenize_html(content.value)
-        if hasattr(entry, 'summary'):
+        if hasattr(entry, 'summary') and hasattr(entry, 'link'):
             body += tokenize_html(entry.summary)
             document = {
                 'id': entry.link,
