@@ -1,4 +1,4 @@
-import HTMLParser
+import html.parser
 import codecs
 import datetime
 import feedparser
@@ -10,8 +10,9 @@ import simserver
 import sys
 
 
-class MLStripper(HTMLParser.HTMLParser):
+class MLStripper(html.parser.HTMLParser):
     def __init__(self):
+        super().__init__()
         self.reset()
         self.fed = []
     def handle_data(self, d):
@@ -28,44 +29,44 @@ def tokenize_html(html):
 
 def text_output(doc, similar_docs, fi):
     if len(similar_docs) > 0:
-        fi.write(u'-' * 79 + u'\n')
-        fi.write(u"If you liked:\n")
-        fi.write(u"    %s\n" % doc['payload']['title'])
-        fi.write(u"        URL: %s\n" % doc['id'])
-        fi.write(u"You may also like:\n")
+        fi.write('-' * 79 + '\n')
+        fi.write("If you liked:\n")
+        fi.write("    %s\n" % doc['payload']['title'])
+        fi.write("        URL: %s\n" % doc['id'])
+        fi.write("You may also like:\n")
         for similar_doc in similar_docs:
-            fi.write(u"    %s\n" % similar_doc[2]['title'])
-            fi.write(u"        URL: %s\n" % similar_doc[0])
+            fi.write("    %s\n" % similar_doc[2]['title'])
+            fi.write("        URL: %s\n" % similar_doc[0])
         fi.flush()
 
 
 def html_head(fi):
-    fi.write(u'<html>\n')
-    fi.write(u'    <head>\n')
-    fi.write(u'        <meta charset="utf-8">\n')
-    fi.write(u'    </head>\n')
-    fi.write(u'<body>\n')
+    fi.write('<html>\n')
+    fi.write('    <head>\n')
+    fi.write('        <meta charset="utf-8">\n')
+    fi.write('    </head>\n')
+    fi.write('<body>\n')
     fi.flush()
 
 
 def html_foot(fi):
-    fi.write(u'</body>\n')
+    fi.write('</body>\n')
     fi.flush()
 
 
 def html_output(doc, similar_docs, fi):
     if len(similar_docs) > 0:
-        fi.write(u"<p>If you liked:</p>")
-        fi.write(u'<a href="%s">%s</a>' % (
+        fi.write("<p>If you liked:</p>")
+        fi.write('<a href="%s">%s</a>' % (
             doc['id'],
             doc['payload']['title']))
-        fi.write(u"<p>You may also like:</p>")
-        fi.write(u"<ul>")
+        fi.write("<p>You may also like:</p>")
+        fi.write("<ul>")
         for similar_doc in similar_docs:
-            fi.write(u'<li><a href="%s">%s</a></li>' % (
+            fi.write('<li><a href="%s">%s</a></li>' % (
                 similar_doc[0],
                 similar_doc[2]['title']))
-        fi.write(u"</ul>")
+        fi.write("</ul>")
         fi.flush()
 
 
@@ -85,6 +86,8 @@ def get_documents(feed):
                     body += tokenize_html(content.value)
             if hasattr(entry, 'summary'):
                 body += tokenize_html(entry.summary)
+            if not hasattr(entry, 'title'):
+                continue
             document = {
                 'id': entry.link,
                 'feed': feed,
