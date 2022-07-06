@@ -2,7 +2,7 @@ Pyro4==4.81
 argparse==1.2.1
 feedparser>=6,<7
 gensim>=4,<5
-lxml==4.6.5
+lxml==4.9.1
 numpy~=1.21
 opml==0.5
 scipy~=1.7
